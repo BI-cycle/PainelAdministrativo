@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <title>Ela - Bootstrap Admin Dashboard Template</title>
+    <title>BI.Cycle - Painel Administrativo</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -39,29 +39,20 @@
                     <div class="col-lg-4">
                         <div class="login-content card">
                             <div class="login-form">
-                                <h4>Login</h4>
+                                <img src="images/BI_cycle_preto.png" style="width: 200px; margin-left: 50px; margin-bottom: 30px;" />
                                 <form>
+                                    <div class="form-group"><h4 style="margin-bottom: 0px !important;">Painel Administrativo</h4></div>
                                     <div class="form-group">
-                                        <label>Email address</label>
-                                        <input type="email" class="form-control" placeholder="Email">
+                                        <input type="text" id="input_cpf" class="form-control" value="222.343.162-35" placeholder="Digite seu CPF">
                                     </div>
                                     <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" placeholder="Password">
+                                        <input type="password" id="input_senha" class="form-control" value="123456" placeholder="Digite sua Senha">
                                     </div>
-                                    <div class="checkbox">
-                                        <label>
-        										<input type="checkbox"> Remember Me
-        									</label>
-                                        <label class="pull-right">
-        										<a href="#">Forgotten Password?</a>
-        									</label>
-
+                                    <div id="error_login" class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        CPF ou Senha inválidos.
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Sign in</button>
-                                    <div class="register-link m-t-15 text-center">
-                                        <p>Don't have account ? <a href="#"> Sign Up Here</a></p>
-                                    </div>
+                                    <button type="button" id="btnLogin" class="btn btn-primary btn-flat m-b-30 m-t-30">Acessar</button>
                                 </form>
                             </div>
                         </div>
@@ -85,6 +76,77 @@
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/scripts.js"></script>
+    <!--Jquery Mask-->
+    <script src="js/lib/jquery.mask/jquery.mask.js"></script>
+
+
+    <script type="text/javascript">
+
+        /** 
+          * @desc Funções responsáveis pela validação de Login
+          * @author Marcelo Barbosa @UberHack - 02/06/2018
+        */
+
+        $(document).ready(function ()
+        {
+            $('#error_login').hide();
+
+            $('#btnLogin').click(function () {
+                doLogin();
+            })
+
+            $('#input_cpf').mask('000.000.000-00', { reverse: true });
+        })
+
+        function doLogin()
+        {
+            if (validarCPF($('#input_cpf').val()))
+            {
+                window.location.replace("index.html");
+            }
+            else
+            {
+                $('#error_login').show('slow');
+
+                setTimeout(function () { $('#error_login').hide('slow'); }, 5000);
+            }
+        }
+
+        function validarCPF(input_cpf)
+        {
+            var cpf = input_cpf.replace(/[^0-9]/g, '').toString();
+
+            if (cpf.length == 11)
+            {
+                var v = [];
+
+                //Calcula o primeiro dígito de verificação.
+                v[0] = 1 * cpf[0] + 2 * cpf[1] + 3 * cpf[2];
+                v[0] += 4 * cpf[3] + 5 * cpf[4] + 6 * cpf[5];
+                v[0] += 7 * cpf[6] + 8 * cpf[7] + 9 * cpf[8];
+                v[0] = v[0] % 11;
+                v[0] = v[0] % 10;
+
+                //Calcula o segundo dígito de verificação.
+                v[1] = 1 * cpf[1] + 2 * cpf[2] + 3 * cpf[3];
+                v[1] += 4 * cpf[4] + 5 * cpf[5] + 6 * cpf[6];
+                v[1] += 7 * cpf[7] + 8 * cpf[8] + 9 * v[0];
+                v[1] = v[1] % 11;
+                v[1] = v[1] % 10;
+
+                //Retorna Verdadeiro se os dígitos de verificação são os esperados.
+                if ((v[0] != cpf[9]) || (v[1] != cpf[10])) {
+                    return false;
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    </script>
 
 </body>
 
