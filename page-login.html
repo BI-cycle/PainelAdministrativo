@@ -37,7 +37,7 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-lg-4">
-                        <div class="login-content card">
+                        <div class="login-content card" style="margin-top: 50px !important;">
                             <div class="login-form">
                                 <img src="images/BI_cycle_preto.png" style="width: 200px; margin-left: 50px; margin-bottom: 30px;" />
                                 <form>
@@ -48,11 +48,12 @@
                                     <div class="form-group">
                                         <input type="password" id="input_senha" class="form-control" value="123456" placeholder="Digite sua Senha">
                                     </div>
-                                    <div id="error_login" class="alert alert-danger alert-dismissible fade show">
+                                    <div id="recaptcha" class="g-recaptcha" data-sitekey="6LdRrlsUAAAAAERYrzG0nI7Sc3MUz9jdwN4o8hXN"></div>
+                                    <div id="error_login" style="margin-top: 15px;" class="alert alert-danger alert-dismissible fade show">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        CPF ou Senha inválidos.
+                                        <div id="error_login_txt"></div>
                                     </div>
-                                    <button type="button" id="btnLogin" class="btn btn-primary btn-flat m-b-30 m-t-30">Acessar</button>
+                                    <button type="button" id="btnLogin" style="margin: 10px 0 0 0 !important;" class="btn btn-primary btn-flat m-b-30 m-t-30">Acessar</button>
                                 </form>
                             </div>
                         </div>
@@ -78,6 +79,8 @@
     <script src="js/scripts.js"></script>
     <!--Jquery Mask-->
     <script src="js/lib/jquery.mask/jquery.mask.js"></script>
+    <!--Google ReCaptcha-->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
 
     <script type="text/javascript">
@@ -102,14 +105,39 @@
         {
             if (validarCPF($('#input_cpf').val()))
             {
-                window.location.replace("index.html");
+                var $captcha = $('#recaptcha'),
+                    response = grecaptcha.getResponse();
+
+                if (response.length === 0)
+                {
+                    if (!$captcha.hasClass("error"))
+                    {
+                        showError('Erro de validação no Captcha');
+
+                        $captcha.addClass("error");
+                    }
+
+                }
+                else
+                {
+                    $captcha.removeClass("error");
+
+                    window.location.replace("index.html");
+                }
             }
             else
-            {
-                $('#error_login').show('slow');
-
-                setTimeout(function () { $('#error_login').hide('slow'); }, 5000);
+            {   
+                showError('CPF ou Senha inválidos.');
             }
+        }
+
+        function showError(txtError)
+        {
+            $('#error_login_txt').html(txtError);
+
+            $('#error_login').show('slow');
+
+            setTimeout(function () { $('#error_login').hide('slow'); }, 5000);
         }
 
         function validarCPF(input_cpf)
