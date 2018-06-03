@@ -135,7 +135,7 @@
                                     <span><img src="images/co2_icon.png" style="width: 50px;" /></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>345,26 Kg</h2>
+                                    <h2 id="txt_co2">345,26 Kg</h2>
                                     <p class="m-b-0">CO2 Economizado</p>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                                     <span><i class="fa fa-bicycle f-s-40"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>415.178</h2>
+                                    <h2 id="txt_km">41517</h2>
                                     <p class="m-b-0">Km Rodados</p>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
                                     <span><i class="fa fa-flag f-s-40"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>750</h2>
+                                    <h2 id="txt_ocorrencias">750</h2>
                                     <p class="m-b-0">Ocorrências</p>
                                 </div>
                             </div>
@@ -174,7 +174,7 @@
                                     <span><i class="fa fa-user f-s-40"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
-                                    <h2>335</h2>
+                                    <h2 id="txt_usuarios">335</h2>
                                     <p class="m-b-0">Novos Usuários</p>
                                 </div>
                             </div>
@@ -365,6 +365,41 @@
 
     <!-- scripit init-->
     <script src="js/scripts.js"></script>
+
+    <script type="text/javascript">
+        var txtCo2 = 345.26;
+        var txtKm = 41517.00;
+        var txtOcorrencias = 750;
+        var txtUsuarios = 335;
+
+        window.setInterval(function ()
+        {
+            txtCo2 = txtCo2 + (Math.floor(Math.random() * 0.625) + 0.120);
+            txtCo2 = Math.round(txtCo2 * 100) / 100;
+
+            txtKm = txtKm + (Math.floor(Math.random() * 1.625) + 0.120);
+            txtKm = Math.round(txtKm * 100) / 100;
+
+            $('#txt_co2').text((txtCo2).toString().replace('.', ',') + " Kg");
+
+            $('#txt_km').text((txtKm).toString().replace('.', ',').toLocaleString('en'));
+            
+
+        }, 3000);
+
+        window.setInterval(function () {
+            txtOcorrencias++;
+
+            $('#txt_ocorrencias').text(txtOcorrencias);
+        }, 5000);
+
+        window.setInterval(function ()
+        {
+            txtUsuarios++;
+
+            $('#txt_usuarios').text(txtUsuarios);
+        }, 7000);
+    </script>
 
 </body>
 
