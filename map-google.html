@@ -140,6 +140,86 @@
                     </div>
                 </div>
 
+                <div class="row ocorrencias" style="display:none;">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Ocorrências - Agrupadas por Responsável</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>Tipo Ocorrência</th>
+                                                <th>Bairro</th>
+                                                <th>Responsável</th>
+                                                <th>Quantidade</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>03/06/2018</td>
+                                                <td>Iluminação</td>
+                                                <td><span>Jd. Anália Franco</span></td>
+                                                <td><span>Sub-Prefeitura Mooca</span></td>
+                                                <td><span class="badge badge-success" style="background-color: #28a745 !important;">35 Ocorrências</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>03/06/2018</td>
+                                                <td>Acidente</td>
+                                                <td><span>Barra Funda</span></td>
+                                                <td><span>Sub-Prefeitura Lapa</span></td>
+                                                <td><span class="badge badge-success" style="background-color: #28a745 !important;">22 Ocorrências</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>03/06/2018</td>
+                                                <td>Sinalização</td>
+                                                <td><span>Perdizes</span></td>
+                                                <td><span>Sub-Prefeitura Lapa</span></td>
+                                                <td><span class="badge badge-success" style="background-color: #28a745 !important;">20 Ocorrências</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>03/06/2018</td>
+                                                <td>Obstáculo</td>
+                                                <td><span>Tatuapé</span></td>
+                                                <td><span>Sub-Prefeitura Mooca</span></td>
+                                                <td><span class="badge badge-success" style="background-color: #28a745 !important;">16 Ocorrências</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>03/06/2018</td>
+                                                <td>Limpeza</td>
+                                                <td><span>Morumbi</span></td>
+                                                <td><span>Sub-Prefeitura Butantã</span></td>
+                                                <td><span class="badge badge-success" style="background-color: #28a745 !important;">15 Ocorrências</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>03/06/2018</td>
+                                                <td>Buraco na Via</td>
+                                                <td><span>Sé</span></td>
+                                                <td><span>Sub-Prefeitura Sé</span></td>
+                                                <td><span class="badge badge-success" style="background-color: #28a745 !important;">11 Ocorrências</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4>Ocorrências</h4>
+                            </div>
+                            <div class="flot-container">
+                                <div id="flot-pie" class="flot-pie-container" style="width: 100% !important;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- End PAge Content -->
             </div>
             <!-- End Container fluid  -->
@@ -150,6 +230,7 @@
         <!-- End Page wrapper  -->
     </div>
     <!-- End Wrapper -->
+
     <!-- All Jquery -->
     <script src="js/lib/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
@@ -162,6 +243,17 @@
     <!--stickey kit -->
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
 
+    <!--  flot-chart js -->
+    <script src="js/lib/flot-chart/excanvas.min.js"></script>
+    <script src="js/lib/flot-chart/jquery.flot.js"></script>
+    <script src="js/lib/flot-chart/jquery.flot.pie.js"></script>
+    <script src="js/lib/flot-chart/jquery.flot.time.js"></script>
+    <script src="js/lib/flot-chart/jquery.flot.stack.js"></script>
+    <script src="js/lib/flot-chart/jquery.flot.resize.js"></script>
+    <script src="js/lib/flot-chart/jquery.flot.crosshair.js"></script>
+    <script src="js/lib/flot-chart/curvedLines.js"></script>
+    <script src="js/lib/flot-chart/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+
     <!-- Google Maps API -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFlIUbigIwX4o7pMpqr8_Z_dFRipZ_lac&libraries=visualization"></script>
 
@@ -169,6 +261,53 @@
     <script src="js/scripts.js"></script>
 
     <script type="text/javascript">
+        $(function () {
+
+            var data = [
+                {
+                    label: "Sem Ocorrências",
+                    data: 50,
+                    color: "#04724D"
+                },
+                {
+                    label: "Ocorrências",
+                    data: 25,
+                    color: "#D2BF55  "
+                },
+                {
+                    label: "SOS",
+                    data: 5,
+                    color: "#B3001B"
+                }
+            ];
+
+            var plotObj = $.plot($("#flot-pie"), data, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 1,
+                        label: {
+                            show: false,
+
+                        }
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: {
+                    show: true,
+                    content: "%p.0%, %s, n=%n", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        });
+
         function getPoints() {
             var myData = new Array();
 
@@ -483,17 +622,187 @@
                 new google.maps.LatLng(-23.604054, -46.636826),
                 new google.maps.LatLng(-23.604040, -46.636743),
                 new google.maps.LatLng(-23.604023, -46.636679),
-                new google.maps.LatLng(-23.6039844, -46.6366773)
+                new google.maps.LatLng(-23.6039844, -46.6366773),
+                new google.maps.LatLng(-23.5083335, -46.6526803),
+                new google.maps.LatLng(-23.5080535, -46.6527663),
+                new google.maps.LatLng(-23.5081275, -46.6528733),
+                new google.maps.LatLng(-23.5082888, -46.6525052),
+                new google.maps.LatLng(-23.5083158, -46.6525672),
+                new google.maps.LatLng(-23.5083648, -46.6526072),
+                new google.maps.LatLng(-23.5085568, -46.6528192),
+                new google.maps.LatLng(-23.5087048, -46.6529692),
+                new google.maps.LatLng(-23.5089118, -46.6531572),
+                new google.maps.LatLng(-23.5091578, -46.6533212),
+                new google.maps.LatLng(-23.5094208, -46.6534822),
+                new google.maps.LatLng(-23.5097238, -46.6536132),
+                new google.maps.LatLng(-23.5099918, -46.6536912),
+                new google.maps.LatLng(-23.5104198, -46.6537902),
+                new google.maps.LatLng(-23.5107858, -46.6538442),
+                new google.maps.LatLng(-23.5112018, -46.6538982),
+                new google.maps.LatLng(-23.5115488, -46.6539462),
+                new google.maps.LatLng(-23.5119328, -46.6540022),
+                new google.maps.LatLng(-23.5124718, -46.6540802),
+                new google.maps.LatLng(-23.5130398, -46.6541742),
+                new google.maps.LatLng(-23.5135738, -46.6542412),
+                new google.maps.LatLng(-23.5147248, -46.6543542),
+                new google.maps.LatLng(-23.5151868, -46.6543782),
+                new google.maps.LatLng(-23.5156078, -46.6543942),
+                new google.maps.LatLng(-23.5160778, -46.6544642),
+                new google.maps.LatLng(-23.5165578, -46.6545392),
+                new google.maps.LatLng(-23.5170868, -46.6546172),
+                new google.maps.LatLng(-23.5174728, -46.6546762),
+                new google.maps.LatLng(-23.5179528, -46.6548452),
+                new google.maps.LatLng(-23.5182245, -46.6557493),
+                new google.maps.LatLng(-23.5183275, -46.6564203),
+                new google.maps.LatLng(-23.5186275, -46.6569513),
+                new google.maps.LatLng(-23.5190455, -46.6573863),
+                new google.maps.LatLng(-23.5195765, -46.6579123),
+                new google.maps.LatLng(-23.5201865, -46.6585183),
+                new google.maps.LatLng(-23.5207075, -46.6590283),
+                new google.maps.LatLng(-23.5211555, -46.6594893),
+                new google.maps.LatLng(-23.5216815, -46.6600153),
+                new google.maps.LatLng(-23.5224585, -46.6607283),
+                new google.maps.LatLng(-23.5224535, -46.6613613),
+                new google.maps.LatLng(-23.5222865, -46.6623323),
+                new google.maps.LatLng(-23.5221245, -46.6633083),
+                new google.maps.LatLng(-23.5219675, -46.6642843),
+                new google.maps.LatLng(-23.5218155, -46.6653623),
+                new google.maps.LatLng(-23.5216335, -46.6664943),
+                new google.maps.LatLng(-23.5214175, -46.6678893),
+                new google.maps.LatLng(-23.5209945, -46.6685113),
+                new google.maps.LatLng(-23.5209355, -46.6692083),
+                new google.maps.LatLng(-23.5212795, -46.6693803),
+                new google.maps.LatLng(-23.5217915, -46.6694503),
+                new google.maps.LatLng(-23.5222585, -46.6697723),
+                new google.maps.LatLng(-23.5227305, -46.6701903),
+                new google.maps.LatLng(-23.5230055, -46.6705493),
+                new google.maps.LatLng(-23.5231335, -46.6707643),
+                new google.maps.LatLng(-23.5236695, -46.6712413),
+                new google.maps.LatLng(-23.5238651, -46.6708685),
+                new google.maps.LatLng(-23.524522, -46.6714342),
+                new google.maps.LatLng(-23.524598, -46.6717852),
+                new google.maps.LatLng(-23.524846, -46.6716942),
+                new google.maps.LatLng(-23.524915, -46.6713912),
+                new google.maps.LatLng(-23.524942, -46.6711792),
+                new google.maps.LatLng(-23.524959, -46.6706672),
+                new google.maps.LatLng(-23.524942, -46.6704202),
+                new google.maps.LatLng(-23.524888, -46.6700582),
+                new google.maps.LatLng(-23.524844, -46.6698432),
+                new google.maps.LatLng(-23.524878, -46.6693792),
+                new google.maps.LatLng(-23.52492, -46.6687432),
+                new google.maps.LatLng(-23.524962, -46.6682072),
+                new google.maps.LatLng(-23.524972, -46.6681132),
+                new google.maps.LatLng(-23.525152, -46.6681262),
+                new google.maps.LatLng(-23.603861, -46.636680),
+                new google.maps.LatLng(-23.603787, -46.636682),
+                new google.maps.LatLng(-23.603726, -46.636680),
+                new google.maps.LatLng(-23.603655, -46.636682),
+                new google.maps.LatLng(-23.603581, -46.636672),
+                new google.maps.LatLng(-23.603495, -46.636661),
+                new google.maps.LatLng(-23.603320, -46.636674),
+                new google.maps.LatLng(-23.603244, -46.636653),
+                new google.maps.LatLng(-23.603158, -46.636658),
+                new google.maps.LatLng(-23.603050, -46.636664),
+                new google.maps.LatLng(-23.602947, -46.636645),
+                new google.maps.LatLng(-23.602851, -46.636650),
+                new google.maps.LatLng(-23.6021231, -46.6093733),
+                new google.maps.LatLng(-23.602059, -46.609212),
+                new google.maps.LatLng(-23.601947, -46.609239),
+                new google.maps.LatLng(-23.601840, -46.609244),
+                new google.maps.LatLng(-23.601716, -46.609271),
+                new google.maps.LatLng(-23.601653, -46.609279),
+                new google.maps.LatLng(-23.601616, -46.609294),
+                new google.maps.LatLng(-23.601582, -46.609284),
+                new google.maps.LatLng(-23.601540, -46.609287),
+                new google.maps.LatLng(-23.601659, -46.609278),
+                new google.maps.LatLng(-23.601626, -46.609278),
+                new google.maps.LatLng(-23.601591, -46.609283),
+                new google.maps.LatLng(-23.601591, -46.609282),
+                new google.maps.LatLng(-23.601544, -46.609288),
+                new google.maps.LatLng(-23.601486, -46.609293),
+                new google.maps.LatLng(-23.601454, -46.609299),
+                new google.maps.LatLng(-23.601416, -46.609300),
+                new google.maps.LatLng(-23.601353, -46.609306),
+                new google.maps.LatLng(-23.601299, -46.609309),
+                new google.maps.LatLng(-23.601237, -46.609316),
+                new google.maps.LatLng(-23.601196, -46.609316),
+                new google.maps.LatLng(-23.601155, -46.609327),
+                new google.maps.LatLng(-23.601118, -46.609329),
+                new google.maps.LatLng(-23.601077, -46.609325),
+                new google.maps.LatLng(-23.601045, -46.609331),
+                new google.maps.LatLng(-23.601010, -46.609337),
+                new google.maps.LatLng(-23.600987, -46.609338),
+                new google.maps.LatLng(-23.600935, -46.609345),
+                new google.maps.LatLng(-23.600900, -46.609350),
+                new google.maps.LatLng(-23.600865, -46.609351),
+                new google.maps.LatLng(-23.600828, -46.609347),
+                new google.maps.LatLng(-23.600777, -46.609360),
+                new google.maps.LatLng(-23.600731, -46.609359),
+                new google.maps.LatLng(-23.600686, -46.609365),
+                new google.maps.LatLng(-23.600646, -46.609369),
+                new google.maps.LatLng(-23.600611, -46.609373),
+                new google.maps.LatLng(-23.600572, -46.609377),
+                new google.maps.LatLng(-23.600504, -46.609384),
+                new google.maps.LatLng(-23.600446, -46.609392),
+                new google.maps.LatLng(-23.600157, -46.609405),
+                new google.maps.LatLng(-23.599992, -46.609453),
+                new google.maps.LatLng(-23.5998227, -46.6094556),
+                new google.maps.LatLng(-23.599607, -46.609480),
+                new google.maps.LatLng(-23.599427, -46.609499),
+                new google.maps.LatLng(-23.599255, -46.609526),
+                new google.maps.LatLng(-23.599076, -46.609531),
+                new google.maps.LatLng(-23.598896, -46.609542),
+                new google.maps.LatLng(-23.598746, -46.609545),
+                new google.maps.LatLng(-23.598587, -46.609571),
+                new google.maps.LatLng(-23.598449, -46.609593),
+                new google.maps.LatLng(-23.598277, -46.609613),
+                new google.maps.LatLng(-23.598165, -46.609621),
+                new google.maps.LatLng(-23.598098, -46.609618),
+                new google.maps.LatLng(-23.598002, -46.609623),
+                new google.maps.LatLng(-23.597919, -46.609639),
+                new google.maps.LatLng(-23.597332, -46.609690),
+                new google.maps.LatLng(-23.597194, -46.609708),
+                new google.maps.LatLng(-23.597086, -46.609711),
+                new google.maps.LatLng(-23.596909, -46.609735),
+                new google.maps.LatLng(-23.596789, -46.609738),
+                new google.maps.LatLng(-23.596651, -46.609765),
+                new google.maps.LatLng(-23.596447, -46.609759),
+                new google.maps.LatLng(-23.596216, -46.609791),
+                new google.maps.LatLng(-23.596091, -46.609815),
+                new google.maps.LatLng(-23.595941, -46.609834),
+                new google.maps.LatLng(-23.595894, -46.609822),
+                new google.maps.LatLng(-23.595851, -46.609819),
+                new google.maps.LatLng(-23.595811, -46.609824),
+                new google.maps.LatLng(-23.595774, -46.609829),
+                new google.maps.LatLng(-23.595728, -46.609837),
+                new google.maps.LatLng(-23.595688, -46.609836),
+                new google.maps.LatLng(-23.595646, -46.609844),
+                new google.maps.LatLng(-23.595569, -46.609851),
+                new google.maps.LatLng(-23.595515, -46.609853),
+                new google.maps.LatLng(-23.595470, -46.609859),
+                new google.maps.LatLng(-23.595447, -46.609864),
+                new google.maps.LatLng(-23.595402, -46.609866),
+                new google.maps.LatLng(-23.595365, -46.609870),
+                new google.maps.LatLng(-23.595337, -46.609874),
+                new google.maps.LatLng(-23.595295, -46.609877),
+                new google.maps.LatLng(-23.595260, -46.609880),
+                new google.maps.LatLng(-23.595229, -46.609884),
+                new google.maps.LatLng(-23.595166, -46.609889),
+                new google.maps.LatLng(-23.595117, -46.609896),
+                new google.maps.LatLng(-23.595076, -46.609898),
+                new google.maps.LatLng(-23.595025, -46.609900),
+                new google.maps.LatLng(-23.594979, -46.609904),
+                new google.maps.LatLng(-23.594930, -46.609906)
             ];
 
             return myData;
         }
 
-        function initGoogleMaps(points) {
-            var myLatlng = new google.maps.LatLng(-23.599094, -46.638291);
+        function initGoogleMaps(points, zoom) {
+            var myLatlng = new google.maps.LatLng(-23.516587, -46.6580397);
 
             var mapOptions = {
-                zoom: 15,
+                zoom: zoom,
                 center: myLatlng,
                 mapTypeId: 'hybrid'
             }
@@ -507,15 +816,21 @@
         }
 
         $(document).ready(function () {
-            initGoogleMaps(getPoints());
+            initGoogleMaps(getPoints(), 13);
+
+            $('.ocorrencias').show('slow');
         });
 
         $('#btnFiltro').click(function () {
             if ($('#tipoFiltro').val() == "1") {
-                initGoogleMaps(getPoints());
+                initGoogleMaps(getPoints(), 13);
+
+                $('.ocorrencias').show('slow');
             }
             else {
-                initGoogleMaps(getPointsRoad());
+                initGoogleMaps(getPointsRoad(), 14);
+
+                $('.ocorrencias').hide();
             }
         });
 
