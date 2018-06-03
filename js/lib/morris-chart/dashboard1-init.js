@@ -82,20 +82,4 @@
         formatter: function (y) { return y + "%" }
     });
 
-    Morris.Donut({
-        element: 'donut_chart_2',
-        data: [
-            { label: 'Buraco na Via', value: 25 },
-            { label: 'Acidente', value: 25 },
-            { label: 'Iluminação', value: 40 },
-            { label: 'Zona de Risco', value: 10 }
-        ],
-        colors: [
-            '#0BA462',
-            '#39B580',
-            '#67C69D',
-            '#95D7BB'
-        ],
-        formatter: function (y) { return y + "%" }
-    });
 } );

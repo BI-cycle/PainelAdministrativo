@@ -31,7 +31,8 @@ $(document).ready(function(){
     map.loadFromFusionTables({
         query: {
             select: '\'Geocodable address\'',
-            from: '1mZ53Z70NsChnBMm-qEYmSDOvLXgrreLTkQUvvg'
+            from: 'AIzaSyDFlIUbigIwX4o7pMpqr8_Z_dFRipZ_lac'
+
         },
         suppressInfoWindows: true,
         events: {
