@@ -39,7 +39,7 @@
                 <!-- Logo -->
                 <div class="navbar-header">
                     <a class="navbar-brand" href="index.html">
-                        <span><img src="images/BI_cycle_preto.png" style="width: 80px !important; margin: 5px;" alt="homepage" class="dark-logo" /></span>
+                        <span><img src="images/BI_cycle_uber.png" style="width: 80px !important; margin: 5px;" alt="homepage" class="dark-logo" /></span>
                     </a>
                 </div>
                 <!-- End Logo -->
@@ -146,7 +146,7 @@
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
 
     <!-- Google Maps API -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFlIUbigIwX4o7pMpqr8_Z_dFRipZ_lac&libraries=visualization"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFlIUbigIwX4o7pMpqr8_Z_dFRipZ_lac&libraries=geometry"></script>
 
     <!--Custom JavaScript -->
     <script src="js/scripts.js"></script>
@@ -176,9 +176,145 @@
             return i;
         }
 
+        function initGoogleMapsLive()
+        {
+            var startPos = [-23.599094, -46.638291];
+            var startPos2 = [-23.645938, -46.7327617];
+
+            var myLatlng = new google.maps.LatLng(startPos[0], startPos[1]);
+
+            var mapOptions = {
+                zoom: 13,
+                center: myLatlng,
+                mapTypeId: 'roadmap'
+            }
+
+            var map = new google.maps.Map(document.getElementById("googleMaps"), mapOptions);
+
+            var speed = 50; // km/h
+
+            var delay = 100;
+
+            function animateMarker(marker, coords, km_h, add) {
+                var target = 0;
+
+                var km_h = km_h || 50;
+
+                coords.push([startPos2[0], startPos2[1]]);
+
+                function goToPoint() {
+                    var lat = marker.position.lat();
+                    var lng = marker.position.lng();
+                    var step = (km_h * 1000 * delay) / 3600000; // in meters
+
+                    var dest = new google.maps.LatLng(
+                        coords[target][0] + add, coords[target][1] + add);
+
+                    var distance =
+                        google.maps.geometry.spherical.computeDistanceBetween(dest, marker.position);
+
+                    var numStep = distance / step;
+                    var i = 0;
+                    var deltaLat = ((coords[target][0] + add) - lat) / numStep;
+                    var deltaLng = ((coords[target][1] + add) - lng) / numStep;
+
+                    function moveMarker() {
+                        lat += deltaLat;
+                        lng += deltaLng;
+                        i += step;
+
+                        if (i < distance) {
+                            marker.setPosition(new google.maps.LatLng(lat, lng));
+                            setTimeout(moveMarker, delay);
+                        }
+                        else {
+                            marker.setPosition(dest);
+                            target++;
+                            if (target == coords.length) { target = 0; }
+
+                            setTimeout(goToPoint, delay);
+                        }
+                    }
+
+                    moveMarker();
+                }
+
+                goToPoint();
+            }
+
+            for (var i = 0; i <= 120; i++) {
+                var myData = new Array();
+                var rLatD = 0;
+                var rLonD = 0;
+
+                for (var p = 0; p < 5; p++) {
+                    var rLatD = Math.floor(Math.random() * 3000);
+                    var rLonD = Math.floor(Math.random() * 3000);
+
+                    myData.push([(startPos2[0] + (rLatD / 20000)), (startPos2[1] + (rLonD / 20000))]);
+                }
+
+                var velMedia = Math.floor(Math.random() * 19) + 1;
+                var varIcon = "https://image.ibb.co/ejpF8J/icon_green.png";
+                var varStatus = "<li>Nenhuma Ocorrência Informada</li>";
+
+                if (i == "55" || i == "72") {
+                    velMedia = 52.1;
+                    varIcon = "https://image.ibb.co/eeOVqo/bike_map_2_1.png";
+                    varStatus = '<br><h3 style="color: red;"><strong>SOS ACIONADO!</strong></h3>';
+                }
+
+                if (i == "66") {
+                    velMedia = 18.6;
+                    varIcon = "https://image.ibb.co/iQK42d/icon_yellow.png";
+                    varStatus = "<br><li><strong>1 Ocorrência Informada</strong></li>";
+
+                    geraMarker(0, 0);
+                    geraMarker(5000, 1);
+                }
+
+                if (i != "55" | i != "66") {
+                    geraMarker(0, 0);
+                }
+
+                function geraMarker(add, id) {
+                    var contentString =
+                        '<h4>ID: bbc44ce5-83d3-410d-a16e-d13f9a60f' + i + id + '</h4>' +
+                        '<ul>' +
+                        '<li>Velocidade M&eacute;dia: ' + velMedia + 'Km/h</li>' +
+                        '<li>Dire&ccedil;&atilde;o: Norte</li>' +
+                        varStatus +
+                        '</ul>'
+
+                    var infowindow = new google.maps.InfoWindow()
+
+                    var marker = new google.maps.Marker({
+                        icon: varIcon,
+                        position: new google.maps.LatLng((startPos2[0] + (rLatD / 15000) + add), (startPos2[1] + (rLonD / 15000) + add)),
+                        map: map
+                    });
+
+                    google.maps.event.addListener(marker, 'click', (function (marker, contentString, infowindow) {
+                        return function () {
+                            infowindow.setContent(contentString);
+                            infowindow.open(map, marker);
+                        };
+                    })(marker, contentString, infowindow));
+
+                    google.maps.event.addListenerOnce(map, 'idle', (function (marker, myData) {
+                        return function () {
+                            animateMarker(marker, myData, speed, add);
+                        };
+                    })(marker, myData));
+                }
+            }
+        }
+
         $(document).ready(function ()
         {
             startTime();
+
+            initGoogleMapsLive();
         })
     </script>
 
