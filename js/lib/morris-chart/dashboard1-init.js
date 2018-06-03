@@ -1,68 +1,65 @@
-// Dashboard 1 Morris-chart
-$( function () {
+﻿$( function () {
 	"use strict";
 
-
-	// Extra chart
-	Morris.Area( {
-		element: 'extra-area-chart',
+	Morris.Bar( {
+        element: 'chart-bairros',
 		data: [ {
-				period: '2001',
-				iphone: 0,
-				imac: 0,
-				ibook: 90,
-				samsung: 0,
-				android: 0
+                diaSemana: 'Segunda',
+				tatuape: 0,
+				morumbi: 0,
+				santana: 90,
+				lapa: 0,
+				outros: 0
         }, {
-				period: '2002',
-				iphone: 10,
-				imac: 60,
-				ibook: 40,
-				samsung: 80,
-				android: 120
+                diaSemana: 'Terça',
+                tatuape: 10,
+                morumbi: 60,
+                santana: 40,
+                lapa: 80,
+                outros: 120
         }, {
-				period: '2003',
-				iphone: 120,
-				imac: 10,
-				ibook: 90,
-				samsung: 30,
-				android: 50
+                diaSemana: 'Quarfa',
+                tatuape: 120,
+                morumbi: 10,
+                santana: 90,
+                lapa: 30,
+                outros: 50
         }, {
-				period: '2004',
-				iphone: 0,
-				imac: 0,
-				ibook: 120,
-				samsung: 0,
-				android: 0
+                diaSemana: 'Quinta',
+                tatuape: 0,
+                morumbi: 0,
+                santana: 120,
+                lapa: 0,
+                outros: 0
         }, {
-				period: '2005',
-				iphone: 0,
-				imac: 0,
-				ibook: 0,
-				samsung: 150,
-				android: 0
+                diaSemana: 'Sexta',
+                tatuape: 0,
+                morumbi: 0,
+                santana: 0,
+                lapa: 150,
+                outros: 0
         }, {
-				period: '2006',
-				iphone: 160,
-				imac: 75,
-				ibook: 30,
-				samsung: 60,
-				android: 90
+                diaSemana: 'Sabado',
+                tatuape: 160,
+                morumbi: 75,
+                santana: 30,
+                lapa: 60,
+                outros: 90
         }, {
-				period: '2007',
-				iphone: 10,
-				imac: 120,
-				ibook: 40,
-				samsung: 60,
-				android: 30
+                diaSemana: 'Domingo',
+                tatuape: 10,
+                morumbi: 120,
+                santana: 40,
+                lapa: 60,
+                outros: 30
         }
 
 
         ],
-		lineColors: [ '#26DAD2', '#fc6180', '#62d1f3', '#ffb64d', '#4680ff' ],
-		xkey: 'period',
-		ykeys: [ 'iphone', 'imac', 'ibook', 'samsung', 'android' ],
-		labels: [ 'iphone', 'imac', 'ibook', 'samsung', 'android' ],
+		colors: [ '#26DAD2', '#fc6180', '#62d1f3', '#ffb64d', '#4680ff' ],
+        xkey: 'diaSemana',
+        ykeys: ['tatuape', 'morumbi', 'santana', 'lapa', 'outros' ],
+        labels: ['Tatuape', 'Morumbi', 'Santana', 'Lapa', 'Outros' ],
 		pointSize: 0,
 		lineWidth: 0,
 		resize: true,
@@ -70,9 +67,35 @@ $( function () {
 		behaveLikeLine: true,
 		gridLineColor: '#e0e0e0',
 		hideHover: 'auto'
-
 	} );
 
+    Morris.Donut({
+        element: 'donut_chart_1',
+        data: [
+            { label: 'Masculino', value: 60 },
+            { label: 'Feminino', value: 32 },
+            { label: 'Outros', value: 8 },
+        ],
+        colors: [
+            '#26DAD2', '#fc6180', '#ffb64d'
+        ],
+        formatter: function (y) { return y + "%" }
+    });
 
-
+    Morris.Donut({
+        element: 'donut_chart_2',
+        data: [
+            { label: 'Buraco na Via', value: 25 },
+            { label: 'Acidente', value: 25 },
+            { label: 'Iluminação', value: 40 },
+            { label: 'Zona de Risco', value: 10 }
+        ],
+        colors: [
+            '#0BA462',
+            '#39B580',
+            '#67C69D',
+            '#95D7BB'
+        ],
+        formatter: function (y) { return y + "%" }
+    });
 } );
