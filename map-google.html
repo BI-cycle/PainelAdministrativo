@@ -78,7 +78,7 @@
                             <a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-map-marker"></i><span class="hide-menu">Mapas</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="map-google.html">Mapa de Calor</a></li>
-                                <li><a href="map-vector.html">Mapa ao Vivo</a></li>
+                                <li><a href="map-google-issues.html">Ocorrências ao Vivo</a></li>
                             </ul>
                         </li>
                         <li class="nav-label">Sistema</li>
@@ -144,7 +144,7 @@
             </div>
             <!-- End Container fluid  -->
             <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. Template designed by <a href="https://colorlib.com">Colorlib</a></footer>
+            <footer class="footer">© 2018 BI.Cycle - Powered by Uber Hack.</footer>
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->
@@ -372,12 +372,10 @@
         });
 
         $('#btnFiltro').click(function () {
-            if ($('#tipoFiltro').val() == "1")
-            {
+            if ($('#tipoFiltro').val() == "1") {
                 initGoogleMaps(getPoints());
             }
-            else
-            {
+            else {
                 initGoogleMaps(getPointsRoad());
             }
         });
